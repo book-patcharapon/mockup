@@ -49,6 +49,7 @@ const clearSlots = () => {
 }
 
 const doSlots = () => {
+  score.value = score.value - 20
   const slots = shuffle()
   let min = 0;
   let countTime = 30;
@@ -71,25 +72,15 @@ const doSlots = () => {
 }
 
 const runAutospin = () => {
-  if (score == 0) {
-    autoStatus.value = true
-  }
-  if (autoStatus.value === false) {
-    if (score == 0) {
-    autoStatus.value = false
-    window.clearInterval(Inter)
-  }
-    Inter = setInterval(() => {
-      doSlots()
-      autoStatus.value = true
-    }, 2000);
-  }
-  if (autoStatus.value === true) {
-    window.clearInterval(Inter)
-    autoStatus.value = false
-  }
+autoStatus.value? stopAutospin() : Inter = setInterval(() => {
+score.value > 0? doSlots() : stopAutospin();
+} ,2000)
 }
 
+const stopAutospin = () => {
+window.clearInterval(Inter)
+autoStatus.value = false
+}
 // const stopAutospin = () => {
 //   clearInterval(Inter)
 //   check = 0
@@ -250,7 +241,6 @@ const countScore = (array) => {
   }
   else {
     total.value++
-    score.value = score.value - 20
     return ': YOU LOSE!'
   }
 }
