@@ -71,29 +71,20 @@ const doSlots = () => {
 }
 
 const runAutospin = () => {
-  if (score == 0) {
-    autoStatus.value = true
-  }
   if (autoStatus.value === false) {
-    if (score == 0) {
-    autoStatus.value = false
-    window.clearInterval(Inter)
-  }
     Inter = setInterval(() => {
-      doSlots()
-      autoStatus.value = true
+      score.value > 0? doSlots() : stopAutospin();
     }, 2000);
   }
   if (autoStatus.value === true) {
-    window.clearInterval(Inter)
-    autoStatus.value = false
+    stopAutospin();
   }
 }
 
-// const stopAutospin = () => {
-//   clearInterval(Inter)
-//   check = 0
-// }
+const stopAutospin = () => {
+  window.clearInterval(Inter)
+  autoStatus.value = false
+}
 
 function testWin(array) {
   const slot1 = array[0]
@@ -311,8 +302,9 @@ const countScore = (array) => {
           <div class="flex font-extrabold justify-center">
             <span class="font-extrabold bg-yellow-400 border-solid text-2xl border-2 p-4 mx-2 my-2 text-black p-auto px-6 border-b-4 border-purple-700 rounded-2xl">
               <input @click="runAutospin()" type="checkbox" class="toggle bg-gray-400 border-opacity-100 checked:bg-green-500 checked:border-green-500" checked v-model="autoStatus" />
-               {{ autoStatus }} AUTO SPIN</span>
+              AUTO SPIN</span>
           </div>
+
 
         </div>
         <!-- <div class="flex items-center">
